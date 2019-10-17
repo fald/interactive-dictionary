@@ -2,6 +2,7 @@ import json
 from difflib import get_close_matches
 
 # TODO: unittesting
+# TODO: Web app/GUI?
 
 dictionary = json.load(open("data.json"))
 

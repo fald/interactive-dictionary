@@ -3,6 +3,8 @@ from difflib import get_close_matches
 
 # TODO: unittesting
 # TODO: Web app/interface, GUI?
+# TODO: Formatting function
+# TODO: Add a similar word thing in case of misspelling, but misspelling into a real word. rogue/rouge for ex
 
 dictionary = json.load(open("data.json"))
 
@@ -11,6 +13,12 @@ def get_definitions(word):
     # TODO: regex to make it just letters?
     # TODO: Clean up?
     return_val = []
+    # Woops. Proper nouns!
+    if word.capitalize() in dictionary:
+        word = word.capitalize()
+    # Acronyms!
+    if word.upper() in dictionary:
+        word = word.upper()
     if word in dictionary:
         return_val.append("- " + word)
         for term in dictionary[word]:

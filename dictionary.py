@@ -1,4 +1,6 @@
 import json
+from difflib import SequenceMatcher
+from difflib import get_close_matches
 
 # TODO: unittesting
 
@@ -7,10 +9,19 @@ dictionary = json.load(open("data.json"))
 def get_definitions(word):
     word = word.lower().strip()
     # TODO: regex to make it just letters?
+    return_val = []
     if word in dictionary:
-        return dictionary[word]
+        return_val.append(dictionary[word])
     else:
-        return ["Sorry, that doesn't appear to be a word. Double check it and try again."]
+        close = similar_words(word)
+        if len(close) > 0:
+            return_val.append("That doesn't appear to be a word. Did you mean:")
+            for potential in close:
+                return_val.append(potential)
+                return_val.append(dictionary[potential])
+        else:
+            return ["Sorry, that doesn't appear to be a word. Double check it and try again."]
+    return return_val
 
 def display_definitions(definitions):
     for defn in definitions:
@@ -24,7 +35,8 @@ def get_input():
     return input("> ")
 
 def similar_words(word):
-    pass
+    # return SequenceMatcher(None, word, word2).ratio()
+    return get_close_matches(word, dictionary.keys())
 
 if __name__ == "__main__":
     display_welcome()
